@@ -4,6 +4,7 @@ import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
 
 const app = express()
+app.use(express.static('public'))
 
 // Express Routing:
 
@@ -19,6 +20,33 @@ app.get('/api/bug', (req, res) => {
 app.get('/api/bug/:id', (req, res) => {
     const { id } = req.params
     bugService.getById(id).then((bug) => res.send(bug))
+        .catch(err => {
+            loggerService.error(`Couldn't get bug id...`, err)
+            res.status(500).send(`Couldn't get bug id...`)
+        })
+})
+
+app.get('/api/bug/:id/remove', (req, res) => {
+    const { id } = req.params
+
+    bugService.remove(id)
+        .then(() => res.send(`Bug ${id} deleted...`))
+        .catch(err => {
+            loggerService.error(`Couldn't delete bug...`, err)
+            res.status(500).send(`Couldn't delete bug...`)
+        })
+})
+
+app.get('/api/bug/save', (req, res) => {
+    const { _id, title, description, severity, createdAt } = req.query
+    const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt }
+
+    bugService.save(bugToSave)
+        .then(savedBug => res.send(savedBug))
+        .catch(err => {
+            loggerService.error(`Couldn't save bug...`, err)
+            res.status(500).send(`Couldn't save bug...`)
+        })
 })
 
 const port = 3030
