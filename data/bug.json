@@ -1,0 +1,9 @@
+[
+    {
+        "_id": "bug101",
+        "title": "bug test",
+        "description": "nice bug",
+        "severity": 1,
+        "createdAt": "Date.now()"
+    }
+]
