@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "follow-redirects": "^1.15.6"
+  },
+  "name": "miss-bug-proj",
+  "version": "1.0.0",
+  "description": "node server project",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexlarik/miss-bug-proj.git"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexlarik/miss-bug-proj/issues"
+  },
+  "homepage": "https://github.com/Alexlarik/miss-bug-proj#readme"
+}
