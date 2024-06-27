@@ -3,6 +3,10 @@ import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 
 const STORAGE_KEY = 'bugDB'
+var testBugs = [
+    { _id: 'bug101', title: 'bug test', description: 'nice bug', severity: 1, createdAt: Date.now() }
+]
+
 
 export const bugService = {
     query,
@@ -13,10 +17,11 @@ export const bugService = {
 
 
 function query() {
-    return storageService.query(STORAGE_KEY)
+    return Promise.resolve(testBugs)
 }
 function getById(bugId) {
-    return storageService.get(STORAGE_KEY, bugId)
+    const bug = testBugs.find(bug => bug._id === bugId)
+    return Promise.resolve(bug)
 }
 function remove(bugId) {
     return storageService.remove(STORAGE_KEY, bugId)

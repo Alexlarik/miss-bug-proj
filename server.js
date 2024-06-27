@@ -5,21 +5,20 @@ import { loggerService } from './services/logger.service.js'
 
 const app = express()
 
-var testBugs = [
-    { _id: 'bug101', title: 'bug test', description: 'nice bug', severity: 1, createdAt: Date.now() }
-]
-
-
 // Express Routing:
 
 app.get('/api/bug', (req, res) => {
-    res.send(testBugs)
+    bugService.query()
+        .then(bugs => res.send(bugs))
+        .catch(err => {
+            loggerService.error(`Couldn't get bugs...`, err)
+            res.status(500).send(`Couldn't get bugs...`)
+        })
 })
 
 app.get('/api/bug/:id', (req, res) => {
     const { id } = req.params
-    const bug = testBugs.find(bug => bug._id === id)
-    res.send(bug)
+    bugService.getById(id).then((bug) => res.send(bug))
 })
 
 const port = 3030
