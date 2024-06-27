@@ -1,10 +1,12 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
 
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
 
 const app = express()
 app.use(express.static('public'))
+app.use(cookieParser())
 
 // Express Routing:
 
@@ -19,6 +21,12 @@ app.get('/api/bug', (req, res) => {
 
 app.get('/api/bug/:id', (req, res) => {
     const { id } = req.params
+    var visitedBugs = req.cookies.visitedBugs || []
+
+    if (visitedBugs.length >= 3) res.status(401).send('Max Bug Limit Reached')
+    if (!visitedBugs.includes(id)) visitedBugs.push(id)
+    res.cookie('visitedBugs', visitedBugs, { maxAge: 5000 })
+
     bugService.getById(id).then((bug) => res.send(bug))
         .catch(err => {
             loggerService.error(`Couldn't get bug id...`, err)
