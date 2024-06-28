@@ -1,30 +1,36 @@
-
-import { storageService } from './async-storage.service.js'
-import { utilService } from './util.service.js'
-
-const STORAGE_KEY = 'bugDB'
+import axios from '../lib/axios.js'
+const BASE_URL = '/api/bug'
 
 export const bugService = {
     query,
     getById,
     save,
     remove,
+    createDefaultFilter
 }
 
-
-function query() {
-    return storageService.query(STORAGE_KEY)
+function query(filterBy) {
+    const { txt, minSeverity = +minSeverity } = filterBy
+    return axios.get(`${BASE_URL}?minSeverity=${minSeverity}&txt=${txt}`).then(res => res.data)
 }
 function getById(bugId) {
-    return storageService.get(STORAGE_KEY, bugId)
+    return axios.get(BASE_URL + `/${bugId}`)
+        .then(res => res.data)
+        .catch(console.log)
 }
 function remove(bugId) {
-    return storageService.remove(STORAGE_KEY, bugId)
+    return axios.get(BASE_URL + `/${bugId}/remove`).then(res => res.data)
 }
 function save(bug) {
+    const { _id, description, title, createdAt, severity } = bug
     if (bug._id) {
-        return storageService.put(STORAGE_KEY, bug)
+        return axios.get(BASE_URL + `/save?_id=${_id}&severity=${severity}&title=${title}&createdAt=${createdAt}&description=${description}`)
+            .then(res => res.data)
     } else {
-        return storageService.post(STORAGE_KEY, bug)
+        return axios.get(BASE_URL + `/save?severity=${severity}&title=${title}&createdAt=${createdAt}&description=${description}`)
+            .then(res => res.data)
     }
+}
+function createDefaultFilter() {
+    return { txt: '', minSeverity: 0 }
 }
