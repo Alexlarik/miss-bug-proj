@@ -15,12 +15,14 @@ export function BugIndex() {
   }, [filterBy])
 
   function loadBugs() {
-    bugService.query(filterBy).then(bugs => {
-      console.log('Bugs loaded:', bugs)
-      setBugs(bugs)
-    })
+    bugService.query(filterBy)
+      .then(bugs => setBugs(bugs))
+      .catch(err => {
+        console.log('err:', err)
+        showErrorMsg('Cannot load bugs')
+      })
   }
-  
+
   function onRemoveBug(bugId) {
     bugService
       .remove(bugId)
@@ -41,8 +43,7 @@ export function BugIndex() {
       severity: +prompt('Bug severity?'),
       description: prompt('Bug description?')
     }
-    bugService
-      .save(bug)
+    bugService.save(bug)
       .then((savedBug) => {
         console.log('Added Bug', savedBug)
         setBugs(prevBugs => [...prevBugs, savedBug])

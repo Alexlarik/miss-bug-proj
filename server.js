@@ -18,19 +18,30 @@ app.get('/api/bug', (req, res) => {
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => {
-            loggerService.error(`Couldn't get bugs...`,err)
+            loggerService.error(`Couldn't get bugs...`, err)
             res.status(500).send(`Couldn't get bugs...`)
         })
 })
 
-app.get('/api/bug/save', (req, res) => {
-    const { _id, title, description, severity, createdAt } = req.query
+app.put('/api/bug/:id', (req, res) => {
+    const { _id, title, description, severity, createdAt } = req.body
     const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt }
 
     bugService.save(bugToSave)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
-            loggerService.error(`Couldn't save bugs...`,err)
+            loggerService.error(`Couldn't save bugs (${_id})`, err)
+            res.status(500).send(`Couldn't save bugs (${_id})`)
+        })
+})
+app.post('/api/bug/', (req, res) => {
+    const { title, description, severity, createdAt } = req.body
+    const bugToSave = { title, description, severity: +severity, createdAt: +createdAt }
+
+    bugService.save(bugToSave)
+        .then(savedBug => res.send(savedBug))
+        .catch(err => {
+            loggerService.error(`Couldn't save bugs...`, err)
             res.status(500).send(`Couldn't save bugs...`)
         })
 })
@@ -44,20 +55,20 @@ app.get('/api/bug/:id', (req, res) => {
     res.cookie('visitedBugs', visitedBugs, { maxAge: 5000 })
 
     bugService.getById(id).then((bug) => res.send(bug))
-    .catch(err => {
-        loggerService.error(`Couldn't get bug...`,err)
-        res.status(500).send(`Couldn't get bug...`)
-    })
+        .catch(err => {
+            loggerService.error(`Couldn't get bug (${id})`, err)
+            res.status(500).send(`Couldn't get bug (${id})`)
+        })
 })
 
-app.get('/api/bug/:id/remove', (req, res) => {
+app.delete('/api/bug/:id', (req, res) => {
     const { id } = req.params
 
     bugService.remove(id)
         .then(() => res.send(`Bug ${id} deleted...`))
         .catch(err => {
-            loggerService.error(`Couldn't remove bugs...`,err)
-            res.status(500).send(`Couldn't remove bugs...`)
+            loggerService.error(`Couldn't delete bug (${id})`, err)
+            res.status(500).send(`Couldn't delete bug (${id})`)
         })
 })
 
