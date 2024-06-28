@@ -17,14 +17,27 @@ export const bugService = {
 var bugs = utilService.readJsonFile('./data/bug.json')
 
 
-function query(filterBy = { txt: '', minSeverity: 0 }) {
-    const { txt, minSeverity } = filterBy
-    const regExp = new RegExp(txt, 'i')
-    var filteredBugs = bugs.filter(
-        (bug) =>
-            (regExp.test(bug.description) || regExp.test(bug.title)) &&
-            bug.severity >= minSeverity
-    )
+function query(filterBy) {
+    var filteredBugs = bugs
+    if (!filterBy) return Promise.resolve(filteredBugs)
+
+    if (filterBy.txt) {
+        const regExp = new RegExp(filterBy.txt, 'i')
+        filteredBugs = filteredBugs.filter(bug => regExp.test(bug.title) || regExp.test(bug.description))
+    }
+    if (filterBy.minSeverity) {
+        filteredBugs = filteredBugs.filter(bug => bug.severity >= filterBy.minSeverity)
+    }
+
+    if (filterBy.sortBy) {
+        if (filterBy.sortBy === 'title') {
+            filteredBugs = filteredBugs.sort((bug1, bug2) => bug1.title.localeCompare(bug2.title) * filterBy.sortDir)
+        } else if (filterBy.sortBy === 'severity') {
+            filteredBugs = filteredBugs.sort((bug1, bug2) => (bug1.severity - bug2.severity) * filterBy.sortDir)
+        } else if (filterBy.sortBy === 'createdAt') {
+            filteredBugs = filteredBugs.sort((bug1, bug2) => (bug1.createdAt - bug2.createdAt) * filterBy.sortDir)
+        }
+    }
     return Promise.resolve(filteredBugs)
 }
 
@@ -47,8 +60,7 @@ function save(bugToSave) {
     } else {
         bugToSave._id = utilService.makeId()
         bugToSave.createdAt = Date.now()
-        bugToSave.severity = 1
-        bugs.push(bugToSave)
+        bugs.unshift(bugToSave)
     }
     return _saveBugsToFile()
         .then(() => bugToSave)
