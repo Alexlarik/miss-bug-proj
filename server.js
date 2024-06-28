@@ -11,7 +11,11 @@ app.use(cookieParser())
 // Express Routing:
 
 app.get('/api/bug', (req, res) => {
-    bugService.query()
+    const filterBy = {
+        txt: req.query.txt || '',
+        minSeverity: +req.query.minSeverity || 0,
+    }
+    bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => {
             loggerService.error(`Couldn't get bugs...`,err)
