@@ -52,15 +52,20 @@ function getById(bugId) {
 
 function remove(bugId) {
     const idx = bugs.findIndex(bug => bug._id === bugId)
+
     bugs.splice(idx, 1)
 
     return _saveBugsToFile()
 }
 
-function save(bugToSave) {
+function save(bugToSave, loggedinUser) {
     if (bugToSave._id) {
         const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
         bugs.splice(idx, 1, bugToSave)
+        if (bugs[idx].creator._id !== loggedinUser._id && !loggedinUser.isAdmin) {
+            return Promise.reject('Not authorized update this bug')
+        }
+        bugs[idx] = bugToSave
     } else {
         bugToSave._id = utilService.makeId()
         bugToSave.createdAt = Date.now()

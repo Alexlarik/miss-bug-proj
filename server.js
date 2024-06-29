@@ -30,10 +30,14 @@ app.get('/api/bug', (req, res) => {
 })
 
 app.put('/api/bug/:id', (req, res) => {
+
+    const loggedinUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Cannot update bug')
+
     const { _id, title, description, severity, createdAt } = req.body
     const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt }
 
-    bugService.save(bugToSave)
+    bugService.save(bugToSave, loggedinUser)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
             loggerService.error(`Couldn't save bugs (${_id})`, err)
@@ -41,10 +45,14 @@ app.put('/api/bug/:id', (req, res) => {
         })
 })
 app.post('/api/bug/', (req, res) => {
+
+    const loggedinUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Cannot add bug')
+
     const { title, description, severity, createdAt } = req.body
     const bugToSave = { title, description, severity: +severity, createdAt: +createdAt }
 
-    bugService.save(bugToSave)
+    bugService.save(bugToSave, loggedinUser)
         .then(savedBug => res.send(savedBug))
         .catch(err => {
             loggerService.error(`Couldn't save bugs...`, err)
@@ -69,7 +77,7 @@ app.get('/api/bug/:id', (req, res) => {
 
 app.delete('/api/bug/:id', (req, res) => {
     const loggedinUser = userService.validateToken(req.cookies.loginToken)
-    if (!loggedinUser) return res.status(401).send('Cannot remove car')
+    if (!loggedinUser) return res.status(401).send('Cannot remove bug')
     const { id } = req.params
 
     bugService.remove(id, loggedinUser)
@@ -141,5 +149,5 @@ app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 
-const port = 3030
-app.listen(port, () => loggerService.info(`Server listening on port http://127.0.0.1:${port}/`))
+const PORT = process.env.PORT || 3030
+app.listen(PORT, () => loggerService.info(`Server listening on port http://127.0.0.1:${PORT}/`))
