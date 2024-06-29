@@ -68,9 +68,11 @@ app.get('/api/bug/:id', (req, res) => {
 })
 
 app.delete('/api/bug/:id', (req, res) => {
+    const loggedinUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Cannot remove car')
     const { id } = req.params
 
-    bugService.remove(id)
+    bugService.remove(id, loggedinUser)
         .then(() => res.send(`Bug ${id} deleted...`))
         .catch(err => {
             loggerService.error(`Couldn't delete bug (${id})`, err)

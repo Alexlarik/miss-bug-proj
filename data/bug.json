@@ -1,16 +1,16 @@
 [
   {
-    "title": "small bug",
-    "description": "cute bug",
-    "severity": 1,
-    "createdAt": 1719674728540,
-    "_id": "f4qLcN"
+    "title": "2",
+    "description": "2",
+    "severity": 2,
+    "createdAt": 1719693469188,
+    "_id": "oP9pa3"
   },
   {
-    "title": "Scary bug",
+    "title": "buggy",
     "description": "bad bug",
-    "severity": 3,
-    "createdAt": 1719674719242,
-    "_id": "1whO4h"
+    "severity": 2,
+    "createdAt": 1719693331908,
+    "_id": "fCNKCR"
   }
 ]
