@@ -87,7 +87,10 @@ app.post('/api/auth/signup', (req, res) => {
             res.cookie('loginToken', loginToken)
             res.send(user)
         })
-        .catch(err => res.status(403).send('Signup failed', err))
+        .catch(err => {
+            loggerService.error('Signup failed', err)
+            res.status(403).send('Signup failed')
+        })
 })
 
 app.post('/api/auth/login', (req, res) => {

@@ -210,3 +210,24 @@
 29.6.2024, 22:12:32 - INFO - Server listening on port http://127.0.0.1:3030/
 29.6.2024, 22:13:27 - INFO - Server listening on port http://127.0.0.1:3030/
 29.6.2024, 22:13:28 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:25:10 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:26:56 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:34:14 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:37:35 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:37:36 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:38:02 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:38:08 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:38:09 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:38:11 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:39:15 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:39:27 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:41:49 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:42:03 - ERROR - Signup failed | Error saving user to file
+29.6.2024, 22:44:53 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:44:54 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:45:00 - ERROR - Signup failed | Error saving user to filefs is not defined
+29.6.2024, 22:45:05 - ERROR - Signup failed | Error saving user to filefs is not defined
+29.6.2024, 22:45:57 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:46:22 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:46:25 - INFO - Server listening on port http://127.0.0.1:3030/
+29.6.2024, 22:46:52 - INFO - Server listening on port http://127.0.0.1:3030/

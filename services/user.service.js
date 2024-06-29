@@ -1,3 +1,4 @@
+import fs from 'fs'
 import Cryptr from 'cryptr'
 
 import { utilService } from './util.service.js'
@@ -28,6 +29,9 @@ function signup({ fullname, username, password }) {
         .then(() => {
             delete user.password
             return user
+        })
+        .catch(err => {
+            return Promise.reject('Error saving user to file' + err.message)
         })
 }
 
