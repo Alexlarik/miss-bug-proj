@@ -9,25 +9,22 @@ export const bugService = {
     createDefaultFilter
 }
 
-function query(filterBy) {
-    const { txt, minSeverity = +minSeverity } = filterBy
-    return axios.get(`${BASE_URL}?minSeverity=${minSeverity}&txt=${txt}`).then(res => res.data)
+function query(filterBy = {}) {
+    return axios.get(BASE_URL, { params: filterBy }).then(res => res.data)
 }
 function getById(bugId) {
-    return axios.get(BASE_URL + `/${bugId}`)
-        .then(res => res.data)
-        .catch(console.log)
+    return axios.get(BASE_URL + `/${bugId}`).then(res => res.data)
 }
 function remove(bugId) {
-    return axios.get(BASE_URL + `/${bugId}/remove`).then(res => res.data)
+    return axios.delete(BASE_URL + `/${bugId}`).then(res => res.data)
 }
 function save(bug) {
-    const { _id, description, title, createdAt, severity } = bug
-    if (bug._id) {
-        return axios.get(BASE_URL + `/save?_id=${_id}&severity=${severity}&title=${title}&createdAt=${createdAt}&description=${description}`)
+    // const {_id , description, title, createdAt , severity} = bug
+    if (bug.id) {
+        return axios.put(BASE_URL + `/${bug.id}` + bug)
             .then(res => res.data)
     } else {
-        return axios.get(BASE_URL + `/save?severity=${severity}&title=${title}&createdAt=${createdAt}&description=${description}`)
+        return axios.post(BASE_URL, bug)
             .then(res => res.data)
     }
 }
