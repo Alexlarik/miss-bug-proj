@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 
@@ -77,7 +78,7 @@ app.delete('/api/bug/:id', (req, res) => {
         })
 })
 
-app.post('/api/signup', (req, res) => {
+app.post('/api/auth/signup', (req, res) => {
     const credentials = req.body
 
     userService.signup(credentials)
@@ -89,7 +90,7 @@ app.post('/api/signup', (req, res) => {
         .catch(err => res.status(403).send('Signup failed', err))
 })
 
-app.post('/api/login', (req, res) => {
+app.post('/api/auth/login', (req, res) => {
     const credentials = {
         username: req.body.username,
         password: req.body.password,
@@ -103,9 +104,36 @@ app.post('/api/login', (req, res) => {
         .catch(err => res.status(401).send(err))
 })
 
-app.post('/api/logout', (req, res) => {
+app.post('/api/auth/logout', (req, res) => {
     res.clearCookie('loginToken')
     res.send('Logged out')
+})
+
+app.get('/api/user', (req, res) => {
+    userService.query()
+        .then((users) => {
+            res.send(users)
+        })
+        .catch((err) => {
+            console.log('Cannot load users', err)
+            res.status(400).send('Cannot load users')
+        })
+})
+
+app.get('/api/user/:userId', (req, res) => {
+    const { userId } = req.params
+    userService.getById(userId)
+        .then((user) => {
+            res.send(user)
+        })
+        .catch((err) => {
+            console.log('Cannot load user', err)
+            res.status(400).send('Cannot load user')
+        })
+})
+
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('public/index.html'))
 })
 
 const port = 3030

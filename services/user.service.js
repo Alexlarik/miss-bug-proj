@@ -1,10 +1,14 @@
+import Cryptr from 'cryptr'
 
 import { utilService } from './util.service.js'
+const cryptr = new Cryptr(process.env.SECRET1 || 'secret-puk-1234')
+let users = utilService.readJsonFile('data/user.json')
 
-let users = utilService.readJsonFile('./data/user.json')
 export const userService = {
     signup,
-    login
+    login,
+    getLoginToken,
+    validateToken
 
 
 }
@@ -35,6 +39,21 @@ function login({ username, password }) {
     user = { _id, fullname, isAdmin }
 
     return Promise.resolve(user)
+}
+
+function getLoginToken(user) {
+    return cryptr.encrypt(JSON.stringify(user))
+}
+
+function validateToken(loginToken) {
+    try {
+        const json = cryptr.decrypt(loginToken)
+        const loggedinUser = JSON.parse(json)
+        return loggedinUser
+    } catch (err) {
+        console.log('Invalid login token')
+        return null
+    }
 }
 
 function _saveUsersToFile() {
