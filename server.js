@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser'
 
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
+import { userService } from './services/user.service.js'
 
 const app = express()
 app.use(express.static('public'))
@@ -74,6 +75,37 @@ app.delete('/api/bug/:id', (req, res) => {
             loggerService.error(`Couldn't delete bug (${id})`, err)
             res.status(500).send(`Couldn't delete bug (${id})`)
         })
+})
+
+app.post('/api/signup', (req, res) => {
+    const credentials = req.body
+
+    userService.signup(credentials)
+        .then(user => {
+            const loginToken = userService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
+        })
+        .catch(err => res.status(403).send('Signup failed', err))
+})
+
+app.post('/api/login', (req, res) => {
+    const credentials = {
+        username: req.body.username,
+        password: req.body.password,
+    }
+    userService.login(credentials)
+        .then(user => {
+            const loginToken = userService.getLoginToken(user)
+            res.cookie('loginToken', loginToken)
+            res.send(user)
+        })
+        .catch(err => res.status(401).send(err))
+})
+
+app.post('/api/logout', (req, res) => {
+    res.clearCookie('loginToken')
+    res.send('Logged out')
 })
 
 const port = 3030

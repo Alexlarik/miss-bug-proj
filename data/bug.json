@@ -1,79 +1,16 @@
 [
   {
-    "title": "2",
-    "description": "1",
+    "title": "small bug",
+    "description": "cute bug",
+    "severity": 1,
+    "createdAt": 1719674728540,
+    "_id": "f4qLcN"
+  },
+  {
+    "title": "Scary bug",
+    "description": "bad bug",
     "severity": 3,
-    "createdAt": 1719673960657,
-    "_id": "lhrZpX"
-  },
-  {
-    "title": "2",
-    "description": "2",
-    "severity": 2,
-    "createdAt": 1719673640881,
-    "_id": "t5wW8L"
-  },
-  {
-    "title": "s",
-    "description": "s",
-    "severity": 0,
-    "createdAt": 1719672331503,
-    "_id": "2Nwi6q"
-  },
-  {
-    "title": "1",
-    "description": "4",
-    "severity": 2,
-    "createdAt": 1719672301494,
-    "_id": "X8bR3C"
-  },
-  {
-    "title": "s",
-    "description": "s",
-    "severity": 0,
-    "createdAt": 1719671825091,
-    "_id": "o0wOvk"
-  },
-  {
-    "title": "12",
-    "description": "2",
-    "severity": 2,
-    "createdAt": 1719671264884,
-    "_id": "lICVIs"
-  },
-  {
-    "title": "1",
-    "description": "2",
-    "severity": 1,
-    "createdAt": 1719670976218,
-    "_id": "PNMrSx"
-  },
-  {
-    "title": "1",
-    "description": "1",
-    "severity": 1,
-    "createdAt": 1719670774291,
-    "_id": "RUGNas"
-  },
-  {
-    "title": "1",
-    "description": "1",
-    "severity": 1,
-    "createdAt": 1719670060739,
-    "_id": "g3CdDL"
-  },
-  {
-    "_id": "ZS9eTc",
-    "title": "2",
-    "description": "2",
-    "severity": 2,
-    "createdAt": 1719601822830
-  },
-  {
-    "_id": "U3Feb",
-    "title": "Error while watching",
-    "description": "problem when clicking play",
-    "createdAt": 1542107359454,
-    "severity": 2
+    "createdAt": 1719674719242,
+    "_id": "1whO4h"
   }
 ]
