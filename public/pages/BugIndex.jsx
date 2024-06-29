@@ -2,13 +2,15 @@ import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
+import { utilService } from '../services/util.service.js'
 
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.createDefaultFilter())
   const [pageCount, setPageCount] = useState(0)
+  const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
 
   useEffect(() => {
     loadPageCount()
@@ -86,12 +88,15 @@ export function BugIndex() {
         showErrorMsg('Cannot update bug')
       })
   }
+  function onSetFilterBy(filterBy) {
+    setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+  }
 
   return (
     <main>
       <h3>Bugs App</h3>
       <main>
-        <BugFilter pageCount={pageCount} filterBy={filterBy} setFilterBy={setFilterBy} />
+        <BugFilter pageCount={pageCount} filterBy={filterBy} setFilterBy={setFilterBy} onSetFilterBy={debouncedSetFilterBy.current} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
