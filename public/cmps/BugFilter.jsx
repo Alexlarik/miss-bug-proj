@@ -1,6 +1,6 @@
 const { useState, useEffect } = React
 
-export function BugFilter({ filterBy, setFilterBy, pageCount, onSetFilterBy }) {
+export function BugFilter({ filterBy, pageCount, onSetFilterBy }) {
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
     useEffect(() => {
@@ -13,9 +13,9 @@ export function BugFilter({ filterBy, setFilterBy, pageCount, onSetFilterBy }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value, pageIdx: 0 }))
     }
 
-    function onApplyFilter() {
-        setFilterBy(filterByToEdit)
-    }
+    // function onApplyFilter() {
+    //     setFilterBy(filterByToEdit)
+    // }
 
     function onGetPage(diff) {
         let pageIdx = filterByToEdit.pageIdx + diff
@@ -71,7 +71,7 @@ export function BugFilter({ filterBy, setFilterBy, pageCount, onSetFilterBy }) {
                 <span>{filterByToEdit.pageIdx + 1}</span>
                 <button onClick={() => onGetPage(1)}>+</button>
             </div>
-            <button onClick={onApplyFilter}>Apply Filter</button>
+            {/* <button onClick={onApplyFilter}>Apply Filter</button> */}
         </section>
     )
 }
