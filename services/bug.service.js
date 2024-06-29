@@ -1,8 +1,7 @@
 
-import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 
-const STORAGE_KEY = 'bugDB'
+// const STORAGE_KEY = 'bugDB'
 // var testBugs = [
 //     { _id: 'bug101', title: 'bug test', description: 'nice bug', severity: 1, createdAt: Date.now() }
 // ]
@@ -12,9 +11,11 @@ export const bugService = {
     getById,
     save,
     remove,
+    getPageCount
 }
 
 var bugs = utilService.readJsonFile('./data/bug.json')
+const PAGE_SIZE = 3
 
 
 function query(filterBy) {
@@ -38,7 +39,10 @@ function query(filterBy) {
             filteredBugs = filteredBugs.sort((bug1, bug2) => (bug1.createdAt - bug2.createdAt) * filterBy.sortDir)
         }
     }
+    const startIdx = filterBy.pageIdx * PAGE_SIZE
+    filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
     return Promise.resolve(filteredBugs)
+
 }
 
 function getById(bugId) {
@@ -68,4 +72,10 @@ function save(bugToSave) {
 
 function _saveBugsToFile() {
     return utilService.writeJsonFile('./data/bug.json', bugs)
+}
+
+function getPageCount() {
+    return query().then(bugs => {
+        return Math.ceil(bugs.length / PAGE_SIZE)
+    })
 }

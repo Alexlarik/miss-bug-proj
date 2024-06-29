@@ -6,7 +6,8 @@ export const bugService = {
     getById,
     save,
     remove,
-    createDefaultFilter
+    createDefaultFilter,
+    getPageCount
 }
 
 function query(filterBy = {}) {
@@ -30,4 +31,8 @@ function save(bug) {
 }
 function createDefaultFilter() {
     return { txt: '', minSeverity: 0 }
+}
+
+function getPageCount() {
+    return axios.get(BASE_URL + '/pageCount').then(res => res.data)
 }

@@ -8,6 +8,11 @@ const { useState, useEffect } = React
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.createDefaultFilter())
+  const [pageCount, setPageCount] = useState(0)
+
+  useEffect(() => {
+    loadPageCount()
+  }, [])
 
   useEffect(() => {
     console.log('Filter changed:', filterBy)
@@ -20,6 +25,15 @@ export function BugIndex() {
       .catch(err => {
         console.log('err:', err)
         showErrorMsg('Cannot load bugs')
+      })
+  }
+
+  function loadPageCount() {
+    bugService.getPageCount()
+      .then(pageCount => setPageCount(+pageCount))
+      .catch(err => {
+        console.log('err:', err)
+        showErrorMsg('Cannot get page count')
       })
   }
 
@@ -77,7 +91,7 @@ export function BugIndex() {
     <main>
       <h3>Bugs App</h3>
       <main>
-        <BugFilter filterBy={filterBy} setFilterBy={setFilterBy} />
+        <BugFilter pageCount={pageCount} filterBy={filterBy} setFilterBy={setFilterBy} />
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
