@@ -1,10 +1,18 @@
 [
   {
-    "title": "3",
-    "description": "3",
-    "severity": 3,
-    "createdAt": 1719749786772,
+    "title": "small bug..",
+    "description": "buggy",
+    "severity": 1,
+    "createdAt": 1719752837628,
     "userId": "WsYcli",
-    "_id": "qbSY92"
+    "_id": "znqVeE"
+  },
+  {
+    "title": "BAD BUG!!!",
+    "description": "buggy",
+    "severity": 5,
+    "createdAt": 1719752825641,
+    "userId": "WsYcli",
+    "_id": "oS0ydZ"
   }
 ]

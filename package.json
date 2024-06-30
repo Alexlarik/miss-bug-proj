@@ -4,6 +4,7 @@
   "description": "node server project",
   "main": "app.js",
   "type": "module",
+  "start:win": "set PORT=3030 & node server.js",
   "directories": {
     "lib": "lib"
   },
