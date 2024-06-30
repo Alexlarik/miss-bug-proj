@@ -8,7 +8,9 @@ export const userService = {
     logout,
     get,
     getLoggedinUser,
-    getEmptyCredentials
+    getEmptyCredentials,
+    getById,
+    remove
 }
 
 function get(userId) {
@@ -52,3 +54,14 @@ function getEmptyCredentials() {
     }
 }
 
+function getById(userId) {
+    return axios
+        .get('/api/user/' + userId)
+        .then(res => res.data)
+        .catch(err => console.log(err))
+}
+
+function remove(userId) {
+    console.log(userId)
+    return axios.delete('/api/user/' + userId)
+}

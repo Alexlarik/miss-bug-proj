@@ -25,7 +25,11 @@ export function AppHeader() {
 
   function onSetUser(user) {
     setUser(user)
-    navigate('/')
+    if (user) {
+      navigate(`/user/${user._id}`)
+    } else {
+      navigate('/')
+    }
   }
 
   useEffect(() => {
