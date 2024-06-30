@@ -9,7 +9,8 @@ export const userService = {
     signup,
     login,
     getLoginToken,
-    validateToken
+    validateToken,
+    getById
 
 
 }
@@ -71,4 +72,14 @@ function _saveUsersToFile() {
             resolve()
         })
     })
+}
+
+function getById(userId) {
+    const user = users.find(user => user._id === userId)
+    if (user) {
+        const { _id, fullname, username } = user
+        return Promise.resolve({ _id, fullname, username })
+    } else {
+        return Promise.reject('User not found')
+    }
 }

@@ -1,16 +1,10 @@
 [
   {
-    "title": "small bug",
-    "description": "small cute bug",
-    "severity": 1,
-    "createdAt": 1719746272138,
-    "_id": "BrMqmv"
-  },
-  {
-    "title": "BIG SCARY BUG!!!!",
-    "description": "VERY BAD BUG!!!",
-    "severity": 5,
-    "createdAt": 1719746258136,
-    "_id": "exnsKR"
+    "title": "3",
+    "description": "3",
+    "severity": 3,
+    "createdAt": 1719749786772,
+    "userId": "WsYcli",
+    "_id": "qbSY92"
   }
 ]

@@ -69,6 +69,7 @@ function save(bugToSave, loggedinUser) {
     } else {
         bugToSave._id = utilService.makeId()
         bugToSave.createdAt = Date.now()
+        bugToSave.userId = loggedinUser._id
         bugs.unshift(bugToSave)
     }
     return _saveBugsToFile()

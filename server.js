@@ -20,6 +20,7 @@ app.get('/api/bug', (req, res) => {
         pageIdx: +req.query.pageIdx || 0,
         sortBy: req.query.sortBy || '',
         sortDir: +req.query.sortDir || 1,
+        userId: req.query.userId || '',
     }
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
@@ -34,8 +35,8 @@ app.put('/api/bug/:id', (req, res) => {
     const loggedinUser = userService.validateToken(req.cookies.loginToken)
     if (!loggedinUser) return res.status(401).send('Cannot update bug')
 
-    const { _id, title, description, severity, createdAt } = req.body
-    const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt }
+    const { _id, title, description, severity, createdAt, userId } = req.body
+    const bugToSave = { _id, title, description, severity: +severity, createdAt: +createdAt, userId }
 
     bugService.save(bugToSave, loggedinUser)
         .then(savedBug => res.send(savedBug))
@@ -49,8 +50,8 @@ app.post('/api/bug/', (req, res) => {
     const loggedinUser = userService.validateToken(req.cookies.loginToken)
     if (!loggedinUser) return res.status(401).send('Cannot add bug')
 
-    const { title, description, severity, createdAt } = req.body
-    const bugToSave = { title, description, severity: +severity, createdAt: +createdAt }
+    const { title, description, severity, createdAt, userId } = req.body
+    const bugToSave = { title, description, severity: +severity, createdAt: +createdAt, userId }
 
     bugService.save(bugToSave, loggedinUser)
         .then(savedBug => res.send(savedBug))
@@ -134,7 +135,7 @@ app.get('/api/user', (req, res) => {
 })
 
 app.get('/api/user/:userId', (req, res) => {
-    const { userId } = req.params
+    const userId = req.params.userId
     userService.getById(userId)
         .then((user) => {
             res.send(user)

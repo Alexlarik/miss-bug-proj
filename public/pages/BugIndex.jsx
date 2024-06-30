@@ -3,6 +3,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 import { utilService } from '../services/util.service.js'
+import { userService } from '../services/user.service.js'
 
 const { useState, useEffect, useRef } = React
 
@@ -57,7 +58,8 @@ export function BugIndex() {
     const bug = {
       title: prompt('Bug title?'),
       severity: +prompt('Bug severity?'),
-      description: prompt('Bug description?')
+      description: prompt('Bug description?'),
+      userId: userService.getLoggedinUser()._id
     }
     bugService.save(bug)
       .then((savedBug) => {
