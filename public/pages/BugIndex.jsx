@@ -5,6 +5,7 @@ import { BugFilter } from '../cmps/BugFilter.jsx'
 import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
 
+// let users = utilService.readJsonFile('data/user.json')
 const { useState, useEffect, useRef } = React
 
 export function BugIndex() {
@@ -41,15 +42,28 @@ export function BugIndex() {
   }
 
   function onRemoveBug(bugId) {
-    bugService
-      .remove(bugId)
-      .then(() => {
-        console.log('Deleted Succesfully!')
-        setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
-        showSuccessMsg('Bug removed')
+    // console.log('hiiiiiiiiiiiiiiiiiiiiiiiii')
+    const loggedInUserId = userService.getLoggedinUser()._id
+    console.log('User Id:', loggedInUserId)
+    bugService.getById(bugId)
+      .then(bug => {
+        if (bug.userId === loggedInUserId) {
+          bugService.remove(bugId)
+            .then(() => {
+              console.log('Deleted Successfully!')
+              setBugs(prevBugs => prevBugs.filter(bug => bug._id !== bugId))
+              showSuccessMsg('Bug removed')
+            })
+            .catch((err) => {
+              console.log('Error from onRemoveBug ->', err)
+              showErrorMsg('Cannot remove bug')
+            })
+        } else {
+          showErrorMsg('You do not have permission to delete this bug.')
+        }
       })
-      .catch((err) => {
-        console.log('Error from onRemoveBug ->', err)
+      .catch(err => {
+        console.log('Error fetching bug details:', err)
         showErrorMsg('Cannot remove bug')
       })
   }
